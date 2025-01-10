@@ -2,6 +2,6 @@
 
 pkgs.mkShellNoCC {
   packages = with pkgs; [
-    (python3.withPackages (ps: [ ps.pygame ]))
+    (python3.withPackages (ps: [ ps.pygame-ce ]))
   ];
 }
