@@ -49,6 +49,7 @@ class GameState():
         self.current_screen = 0
         self.screen_list = [
             self.main_screen,
+            self.board_screen
         ]
         self.run = True
         self.elems = {}
@@ -105,7 +106,29 @@ class GameState():
                             self.board_screen_init()
                     self.click_elem = None
 
+    def board_screen_init(self):
+        self.elems = {
+                "buttons": {
+                },
+                "text": {
+                    "title": Elem(font.render("Financial Literacy Tic-Tac-Toe", True, text_color), (300, 50)),
+                },
+        }
+        self.current_screen = 1
 
+    def board_screen(self, screen):
+        self.disp_scene()
+        self.update_click()
+
+        for event in pygame.event.get():
+            match event.type:
+                case pygame.QUIT:
+                    self.run = False
+                case pygame.MOUSEBUTTONDOWN:
+                    self.start_click()
+                case pygame.MOUSEBUTTONUP:
+                    if self.click_elem == "quit":
+                        self.run = False
 
 state = GameState()
 state.main_screen_init()
