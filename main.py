@@ -49,7 +49,8 @@ class GameState():
         self.current_screen = 0
         self.screen_list = [
             self.main_screen,
-            self.board_screen
+            self.board_screen,
+            self.question_screen,
         ]
         self.run = True
         self.elems = {}
@@ -112,15 +113,15 @@ class GameState():
 
         self.elems = {
                 "buttons": {
-                    "top-left": Button(Elem.mk_tile_surface((tile_size, tile_size), ""), ((screen_width - tile_size) / 2 - tile_size - grid_pad, ((screen_height - 160) / 2 - tile_size - grid_pad))),
-                    "top-middle": Button(Elem.mk_tile_surface((tile_size, tile_size), ""), ((screen_width - tile_size) / 2, ((screen_height - 160) / 2 - tile_size - grid_pad))),
-                    "top-right": Button(Elem.mk_tile_surface((tile_size, tile_size), ""), ((screen_width - tile_size) / 2 + tile_size + grid_pad, ((screen_height - 160) / 2 - tile_size - grid_pad))),
-                    "middle-left": Button(Elem.mk_tile_surface((tile_size, tile_size), ""), ((screen_width - tile_size) / 2 - tile_size - grid_pad, ((screen_height - 160) / 2))),
-                    "middle-middle": Button(Elem.mk_tile_surface((tile_size, tile_size), ""), ((screen_width - tile_size) / 2, ((screen_height - 160) / 2))),
-                    "middle-right": Button(Elem.mk_tile_surface((tile_size, tile_size), ""), ((screen_width - tile_size) / 2 + tile_size + grid_pad, ((screen_height - 160) / 2))),
-                    "bottom-left": Button(Elem.mk_tile_surface((tile_size, tile_size), ""), ((screen_width - tile_size) / 2 - tile_size - grid_pad, ((screen_height - 160) / 2 + tile_size + grid_pad))),
-                    "bottom-middle": Button(Elem.mk_tile_surface((tile_size, tile_size), ""), ((screen_width - tile_size) / 2, ((screen_height - 160) / 2 + tile_size + grid_pad))),
-                    "bottom-right": Button(Elem.mk_tile_surface((tile_size, tile_size), ""), ((screen_width - tile_size) / 2 + tile_size + grid_pad, ((screen_height - 160) / 2 + tile_size + grid_pad))),
+                    (0, 0): Button(Elem.mk_tile_surface((tile_size, tile_size), ""), ((screen_width - tile_size) / 2 - tile_size - grid_pad, ((screen_height - 160) / 2 - tile_size - grid_pad))),
+                    (0, 1): Button(Elem.mk_tile_surface((tile_size, tile_size), ""), ((screen_width - tile_size) / 2, ((screen_height - 160) / 2 - tile_size - grid_pad))),
+                    (0, 2): Button(Elem.mk_tile_surface((tile_size, tile_size), ""), ((screen_width - tile_size) / 2 + tile_size + grid_pad, ((screen_height - 160) / 2 - tile_size - grid_pad))),
+                    (1, 0): Button(Elem.mk_tile_surface((tile_size, tile_size), ""), ((screen_width - tile_size) / 2 - tile_size - grid_pad, ((screen_height - 160) / 2))),
+                    (1, 1): Button(Elem.mk_tile_surface((tile_size, tile_size), ""), ((screen_width - tile_size) / 2, ((screen_height - 160) / 2))),
+                    (1, 2): Button(Elem.mk_tile_surface((tile_size, tile_size), ""), ((screen_width - tile_size) / 2 + tile_size + grid_pad, ((screen_height - 160) / 2))),
+                    (2, 0): Button(Elem.mk_tile_surface((tile_size, tile_size), ""), ((screen_width - tile_size) / 2 - tile_size - grid_pad, ((screen_height - 160) / 2 + tile_size + grid_pad))),
+                    (2, 1): Button(Elem.mk_tile_surface((tile_size, tile_size), ""), ((screen_width - tile_size) / 2, ((screen_height - 160) / 2 + tile_size + grid_pad))),
+                    (2, 2): Button(Elem.mk_tile_surface((tile_size, tile_size), ""), ((screen_width - tile_size) / 2 + tile_size + grid_pad, ((screen_height - 160) / 2 + tile_size + grid_pad))),
                 },
                 "text": {
                     "title": Elem(Elem.mk_tile_surface((450, 40), "Financial Literacy Tic-Tac-Toe", bg_color=bg_color), ((screen_width - 450) / 2, 50)),
@@ -139,8 +140,28 @@ class GameState():
                 case pygame.MOUSEBUTTONDOWN:
                     self.start_click()
                 case pygame.MOUSEBUTTONUP:
-                    if self.click_elem == "quit":
-                        self.run = False
+                    if self.click_elem:
+                        self.question_screen_init(self.click_elem)
+                    self.click_elem = None
+
+    def question_screen_init(self, question):
+        self.elems = {
+                "text": {
+                    "title": Elem(Elem.mk_tile_surface((450, 40), "Financial Literacy Tic-Tac-Toe", bg_color=bg_color), ((screen_width - 450) / 2, 50)),
+                },
+        }
+        self.current_screen = 2
+
+    def question_screen(self, screen):
+        self.disp_scene()
+        self.update_click()
+
+        for event in pygame.event.get():
+            match event.type:
+                case pygame.QUIT:
+                    self.run = False
+                case pygame.MOUSEBUTTONDOWN:
+                    self.start_click()
 
 state = GameState()
 state.main_screen_init()
