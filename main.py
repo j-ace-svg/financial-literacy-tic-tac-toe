@@ -107,11 +107,23 @@ class GameState():
                     self.click_elem = None
 
     def board_screen_init(self):
+        grid_pad = 20
+        tile_size = 160
+
         self.elems = {
                 "buttons": {
+                    "top-left": Button(Elem.mk_tile_surface((tile_size, tile_size), ""), ((screen_width - tile_size) / 2 - tile_size - grid_pad, ((screen_height - 160) / 2 - tile_size - grid_pad))),
+                    "top-middle": Button(Elem.mk_tile_surface((tile_size, tile_size), ""), ((screen_width - tile_size) / 2, ((screen_height - 160) / 2 - tile_size - grid_pad))),
+                    "top-right": Button(Elem.mk_tile_surface((tile_size, tile_size), ""), ((screen_width - tile_size) / 2 + tile_size + grid_pad, ((screen_height - 160) / 2 - tile_size - grid_pad))),
+                    "middle-left": Button(Elem.mk_tile_surface((tile_size, tile_size), ""), ((screen_width - tile_size) / 2 - tile_size - grid_pad, ((screen_height - 160) / 2))),
+                    "middle-middle": Button(Elem.mk_tile_surface((tile_size, tile_size), ""), ((screen_width - tile_size) / 2, ((screen_height - 160) / 2))),
+                    "middle-right": Button(Elem.mk_tile_surface((tile_size, tile_size), ""), ((screen_width - tile_size) / 2 + tile_size + grid_pad, ((screen_height - 160) / 2))),
+                    "bottom-left": Button(Elem.mk_tile_surface((tile_size, tile_size), ""), ((screen_width - tile_size) / 2 - tile_size - grid_pad, ((screen_height - 160) / 2 + tile_size + grid_pad))),
+                    "bottom-middle": Button(Elem.mk_tile_surface((tile_size, tile_size), ""), ((screen_width - tile_size) / 2, ((screen_height - 160) / 2 + tile_size + grid_pad))),
+                    "bottom-right": Button(Elem.mk_tile_surface((tile_size, tile_size), ""), ((screen_width - tile_size) / 2 + tile_size + grid_pad, ((screen_height - 160) / 2 + tile_size + grid_pad))),
                 },
                 "text": {
-                    "title": Elem(font.render("Financial Literacy Tic-Tac-Toe", True, text_color), (300, 50)),
+                    "title": Elem(Elem.mk_tile_surface((450, 40), "Financial Literacy Tic-Tac-Toe", bg_color=bg_color), ((screen_width - 450) / 2, 50)),
                 },
         }
         self.current_screen = 1
