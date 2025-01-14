@@ -163,6 +163,7 @@ class GameState():
         self.run = True
         self.elems = {}
         self.click_elem = None
+        self.correct_answer = 0
 
     def main(self, screen):
         self.screen_list[self.current_screen](screen)
@@ -252,9 +253,12 @@ class GameState():
 
     def question_screen_init(self, coord):
         question = questions[coord[0]][coord[1]]
-        answers = [question["answers"]["correct"]]
-        answers.extend(question["answers"]["incorrect"])
+        answers = [(question["answers"]["correct"], True)]
+        answers.extend((answer, False) for answer in question["answers"]["incorrect"])
         random.shuffle(answers)
+
+        for index, answer in enumerate(answers):
+            if answer[1]: self.correct_answer = index
 
         answer_width = 160
         answer_pad = 20
@@ -262,7 +266,7 @@ class GameState():
         self.elems = {
                 "buttons": {
                     "answer-" + str(index): Button(
-                        Elem.mk_tile_surface((answer_width, 80), answer),
+                        Elem.mk_tile_surface((answer_width, 80), answer[0]),
                         (
                             (screen_width - answer_pad) / 2 + (answer_width + answer_pad) * (index - 2),
                             400,
@@ -286,6 +290,10 @@ class GameState():
                     self.run = False
                 case pygame.MOUSEBUTTONDOWN:
                     self.start_click()
+                case pygame.MOUSEBUTTONUP:
+                    if self.click_elem == "answer-" + str(self.correct_answer):
+                        self.board_screen_init()
+                    self.click_elem = None
 
 state = GameState()
 state.main_screen_init()
