@@ -25,34 +25,106 @@ questions = [
     [ # Row 0
         { # (0, 0)
             "prompt": "What is 1 + 1?",
+            "answers": {
+                "correct": "1 + 1",
+                "incorrect": [
+                    "",
+                    "",
+                    "",
+                ],
+            },
         },
         { # (0, 1)
             "prompt": "What is 1 + 2?",
+            "answers": {
+                "correct": "1 + 2",
+                "incorrect": [
+                    "",
+                    "",
+                    "",
+                ],
+            },
         },
         { # (0, 2)
             "prompt": "What is 1 + 3?",
+            "answers": {
+                "correct": "1 + 3",
+                "incorrect": [
+                    "",
+                    "",
+                    "",
+                ],
+            },
         },
     ],
     [ # Row 1
         { # (1, 0)
             "prompt": "What is 2 + 1?",
+            "answers": {
+                "correct": "2 + 1",
+                "incorrect": [
+                    "",
+                    "",
+                    "",
+                ],
+            },
         },
         { # (1, 1)
             "prompt": "What is 2 + 2?",
+            "answers": {
+                "correct": "2 + 2",
+                "incorrect": [
+                    "",
+                    "",
+                    "",
+                ],
+            },
         },
         { # (1, 2)
             "prompt": "What is 2 + 3?",
+            "answers": {
+                "correct": "2 + 3",
+                "incorrect": [
+                    "",
+                    "",
+                    "",
+                ],
+            },
         },
     ],
     [ # Row 2
         { # (2, 0)
             "prompt": "What is 3 + 1?",
+            "answers": {
+                "correct": "3 + 1",
+                "incorrect": [
+                    "",
+                    "",
+                    "",
+                ],
+            },
         },
         { # (2, 1)
             "prompt": "What is 3 + 2?",
+            "answers": {
+                "correct": "3 + 2",
+                "incorrect": [
+                    "",
+                    "",
+                    "",
+                ],
+            },
         },
         { # (2, 2)
             "prompt": "What is 3 + 3?",
+            "answers": {
+                "correct": "3 + 3",
+                "incorrect": [
+                    "",
+                    "",
+                    "",
+                ],
+            },
         },
     ],
 ]
@@ -149,15 +221,13 @@ class GameState():
 
         self.elems = {
                 "buttons": {
-                    (0, 0): Button(Elem.mk_tile_surface((tile_size, tile_size), ""), ((screen_width - tile_size) / 2 - tile_size - grid_pad, ((screen_height - 160) / 2 - tile_size - grid_pad))),
-                    (0, 1): Button(Elem.mk_tile_surface((tile_size, tile_size), ""), ((screen_width - tile_size) / 2, ((screen_height - 160) / 2 - tile_size - grid_pad))),
-                    (0, 2): Button(Elem.mk_tile_surface((tile_size, tile_size), ""), ((screen_width - tile_size) / 2 + tile_size + grid_pad, ((screen_height - 160) / 2 - tile_size - grid_pad))),
-                    (1, 0): Button(Elem.mk_tile_surface((tile_size, tile_size), ""), ((screen_width - tile_size) / 2 - tile_size - grid_pad, ((screen_height - 160) / 2))),
-                    (1, 1): Button(Elem.mk_tile_surface((tile_size, tile_size), ""), ((screen_width - tile_size) / 2, ((screen_height - 160) / 2))),
-                    (1, 2): Button(Elem.mk_tile_surface((tile_size, tile_size), ""), ((screen_width - tile_size) / 2 + tile_size + grid_pad, ((screen_height - 160) / 2))),
-                    (2, 0): Button(Elem.mk_tile_surface((tile_size, tile_size), ""), ((screen_width - tile_size) / 2 - tile_size - grid_pad, ((screen_height - 160) / 2 + tile_size + grid_pad))),
-                    (2, 1): Button(Elem.mk_tile_surface((tile_size, tile_size), ""), ((screen_width - tile_size) / 2, ((screen_height - 160) / 2 + tile_size + grid_pad))),
-                    (2, 2): Button(Elem.mk_tile_surface((tile_size, tile_size), ""), ((screen_width - tile_size) / 2 + tile_size + grid_pad, ((screen_height - 160) / 2 + tile_size + grid_pad))),
+                    (row, col): Button(
+                        Elem.mk_tile_surface((tile_size, tile_size), ""),
+                        (
+                            (screen_width - tile_size) / 2 + (tile_size + grid_pad) * (col - 1),
+                            (screen_height - tile_size) / 2 + (tile_size + grid_pad) * (row - 1),
+                        ),
+                    ) for row in range(3) for col in range(3)
                 },
                 "text": {
                     "title": Elem(Elem.mk_tile_surface((450, 40), "Financial Literacy Tic-Tac-Toe", bg_color=bg_color), ((screen_width - 450) / 2, 50)),
@@ -182,8 +252,23 @@ class GameState():
 
     def question_screen_init(self, coord):
         question = questions[coord[0]][coord[1]]
+        answers = [question["answers"]["correct"]]
+        answers.extend(question["answers"]["incorrect"])
+        random.shuffle(answers)
+
+        answer_width = 160
+        answer_pad = 20
 
         self.elems = {
+                "buttons": {
+                    "answer-" + str(index): Button(
+                        Elem.mk_tile_surface((answer_width, 80), answer),
+                        (
+                            (screen_width - answer_pad) / 2 + (answer_width + answer_pad) * (index - 2),
+                            400,
+                        ),
+                    ) for (index, answer) in enumerate(answers)
+                },
                 "text": {
                     "title": Elem(Elem.mk_tile_surface((450, 40), "Financial Literacy Tic-Tac-Toe", bg_color=bg_color), ((screen_width - 450) / 2, 50)),
                     "prompt": Elem(Elem.mk_tile_surface((450, 40), question["prompt"], bg_color=bg_color), ((screen_width - 450) / 2, 100)),
