@@ -21,6 +21,42 @@ pygame.display.set_caption('Financial Literacy Tic-Tac-Toe')
 
 font = pygame.font.SysFont(None, 30)
 
+questions = [
+    [ # Row 0
+        { # (0, 0)
+            "prompt": "What is 1 + 1?",
+        },
+        { # (0, 1)
+            "prompt": "What is 1 + 2?",
+        },
+        { # (0, 2)
+            "prompt": "What is 1 + 3?",
+        },
+    ],
+    [ # Row 1
+        { # (1, 0)
+            "prompt": "What is 2 + 1?",
+        },
+        { # (1, 1)
+            "prompt": "What is 2 + 2?",
+        },
+        { # (1, 2)
+            "prompt": "What is 2 + 3?",
+        },
+    ],
+    [ # Row 2
+        { # (2, 0)
+            "prompt": "What is 3 + 1?",
+        },
+        { # (2, 1)
+            "prompt": "What is 3 + 2?",
+        },
+        { # (2, 2)
+            "prompt": "What is 3 + 3?",
+        },
+    ],
+]
+
 class Elem():
     def __init__(self, image, coords):
         self.image = image
@@ -144,10 +180,13 @@ class GameState():
                         self.question_screen_init(self.click_elem)
                     self.click_elem = None
 
-    def question_screen_init(self, question):
+    def question_screen_init(self, coord):
+        question = questions[coord[0]][coord[1]]
+
         self.elems = {
                 "text": {
                     "title": Elem(Elem.mk_tile_surface((450, 40), "Financial Literacy Tic-Tac-Toe", bg_color=bg_color), ((screen_width - 450) / 2, 50)),
+                    "prompt": Elem(Elem.mk_tile_surface((450, 40), question["prompt"], bg_color=bg_color), ((screen_width - 450) / 2, 100)),
                 },
         }
         self.current_screen = 2
