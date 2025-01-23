@@ -140,7 +140,7 @@ class Elem():
         tile_image.fill(bg_color)
         text_image = font.render(text, True, fg_color)
         if not text_coords:
-            text_coords = ((tile_dims[0] - text_image.width) / 2, (tile_dims[1] - text_image.height) / 2)
+            text_coords = ((tile_dims[0] - text_image.get_width()) / 2, (tile_dims[1] - text_image.get_height()) / 2)
         tile_image.blit(text_image, text_coords)
 
         return tile_image
