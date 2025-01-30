@@ -4,6 +4,7 @@ import pygame
 from pygame.locals import *
 import random
 import os
+import read_file
 
 pygame.init()
 
@@ -21,6 +22,7 @@ pygame.display.set_caption('Financial Literacy Tic-Tac-Toe')
 
 font = pygame.font.SysFont(None, 30)
 
+"""
 questions = [
     [ # Row 0
         { # (0, 0)
@@ -128,6 +130,10 @@ questions = [
         },
     ],
 ]
+"""
+
+with open("questions.txt", "r") as questions_file:
+    questions = read_file.read_questions_file(questions_file)
 
 class Elem():
     def __init__(self, image, coords):
@@ -266,7 +272,7 @@ class GameState():
                     self.click_elem = None
 
     def question_screen_init(self):
-        question = questions[self.coord[0]][self.coord[1]]
+        question = random.choice(questions[self.coord[0]][self.coord[1]])
         answers = [(question["answers"]["correct"], True)]
         answers.extend((answer, False) for answer in question["answers"]["incorrect"])
         random.shuffle(answers)
