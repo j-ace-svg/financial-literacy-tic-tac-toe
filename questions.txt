@@ -1,69 +1,575 @@
+# Macro: :execute 'norm ' . nr2char(getchar()) . 'jf-r+}/^(j'
+# Budgeting
 (0, 0)
-What is 1 + 1?
- + 1 + 1
- - !
- - !
- - !
+What is a budget?
+ - A type of investing vehicle 
+ - A type of savings account that does not give interest 
+ + A plan for managing your income and expenses
+ - A loan your friend gave you 
 
 (0, 0)
-What color is the sky?
- + Blue
- - Brown
- - Purple
- - Green
+What is the purpose of a budget? 
+ + To track and control your spending 
+ - To make more money 
+ - To earn interest on your principle 
+ - It serves as a piggy bank so you can save your money 
+
+(0, 0)
+What is considered a fixed expense?
+ - Entertainment 
+ - Groceries 
+ + Rent 
+ - Clothes 
+
+(0, 0)
+Which of the following is an example of a variable expense?
+ - Health insurance premium 
+ - Utility bills 
+ - Rent 
+ + Dining out 
+
+(0, 0)
+What does discretionary spending refer to? 
+ + Spending on luxury & non essential items 
+ - Spending on rent or mortgage payment
+ - Money you put into a savings account
+
+(0, 0)
+What is the best way to track your budget? 
+ - Keeping track of your spending in your head
+ + Using a spreadsheet, budgeting app, or physical budget
+ - Telling your friends to keep track for you
+ - Not recording small expenses 
+
+(0, 0)
+What is the 50/30/20 budgeting rule? 
+ - 50% savings, 30% needs, 20% wants
+ - 50% wants, 30% savings, 20% needs
+ + 50% needs, 30% wants, 20% savings/debt repayment
+ - 50% expenses, 30% investments, 20% luxuries
+
+(0, 0)
+Why is it important to track your expenses?
+ - To avoid paying taxes
+ + To find out where your money is going
+ - To increase your debt
+ - To impress others 
+
+(0, 0)
+What is an emergency fund used for?
+ - Investing in stocks
+ + Unexpected expenses like medical bills or car repairs 
+ - Paying for vacations
+ - Monthly rent payments
+
+# Savings
+(1, 0)
+The rule of thumb is you should set aside ____  worth of expenses in an emergency fund.
+ + 3-6 months 
+ - 1 month 
+ - 2 weeks 
+ - 1 year 
 
 (1, 0)
-What is 2 + 1?
- + 2 + 1
- - !
- - !
- - !
+What is the primary purpose of saving money?
+ - To spend more on luxury items
+ + To build financial security and meet future goals
+ - To increase debt
+ - To avoid paying taxes
+
+(1, 0)
+Which of the following is a common savings goal?
+ - Paying off a credit card
+ - Buying a house
+ - Building an emergency fund
+ + All of the above
+
+(1, 0)
+Which of the following is the best place to keep an emergency fund?
+ - A checking account
+ + A high-yield savings account
+ - A stock investment account
+ - Under the mattress
+
+(1, 0)
+What is a high-yield savings account?
+ + A savings account with higher interest rates than a traditional savings account
+ - A risky investment account
+ - A checking account with no fees
+ - A short-term loan account
+
+(1, 0)
+Which of the following is an example of a short-term savings goal? 
+ - Saving for retirement
+ - Buying a house in 20 years
+ + Saving for a vacation next year
+ - Paying off a 30-year mortgage
+
+(1, 0)
+What is the benefit of compound interest in a savings account?
+ - It reduces your overall savings
+ + It allows your savings to grow over time as you earn interest on both principal and previous interest
+ - It guarantees a fixed amount of interest without growth
+ - It only applies to retirement accounts
+
+(1, 0)
+What is the primary disadvantage of keeping all your savings in a regular checking account?
+ + Checking accounts do not earn interest
+ - Banks charge fees for checking accounts
+ - You cannot withdraw from a checking account
+ - Checking accounts are less secure than keeping cash at home
+
+(1, 0)
+Which of the following is an example of a long-term savings goal?
+ - Saving for next month’s rent
+ - Building an emergency fund for unexpected expenses
+ + Saving for a down payment on a house in five years
+ - Setting aside money for a weekend trip
+
+# Investing
+(2, 0)
+Historically which investment tool has provided the highest rate of return over a period of time?
+ - Bonds 
+ - CDs
+ + Stocks 
+ - Mutual Funds 
 
 (2, 0)
-What is 3 + 1?
- + 3 + 1
- - !
- - !
- - !
+This type of account has the following drawbacks: lacks potential for high returns & has early withdrawal fees.
+ + CD 
+ - Money market 
+ - Roth IRA 
+ - Brokerage account 
+
+(2, 0)
+Which correctly describes value investing?
+ - Investing in stocks with rapid growth
+ - Aggressive investors prefer this investing style
+ - Taking advantage of bull markets
+ + Investing in undervalued stocks, that have potential for future growth
+
+(2, 0)
+If interest rates rise, what happens to bond prices?
+ - Rise
+ + Fall
+ - Stay the same
+ - Double
+
+(2, 0)
+Which of the following is a pro to diversification?
+ + Mitigates risk
+ - Garners lower returns
+ - Risk never fully eliminated
+ - Can become too complicated
+
+(2, 0)
+Which investment type is least risky?
+ - Real estate
+ - Stocks
+ + Bonds
+ - Mutual funds
+
+(2, 0)
+Which investment is most suitable for long-term wealth building?
+ - Keeping money in a regular savings account
+ + Investing in a diversified stock portfolio
+ - Buying lottery tickets
+ - Investing in short-term speculative assets
+
+(2, 0)
+What is a dividend in stock investing?
+ - A penalty fee for selling a stock
+ + A regular payment made by some companies to shareholders
+ - A type of tax on investments
+ - The process of buying and selling stocks frequently
+
+(2, 0)
+What happens if you sell an investment for more than what you paid for it?
+ + It is called a capital gain
+ - You owe a penalty to the broker
+ - It is called a capital loss
+ - The value of the investment does not change
+
+# Credit Cards/Reports
+(0, 1)
+What is the range of a credit score? 
+ + 300-850
+ - 250-500
+ - 100-1000
+ - 1-10
 
 (0, 1)
-What is 1 + 2?
- + 1 + 2
- - !
- - !
- - !
+Who is allowed to look at your credit scores?
+ - Colleagues 
+ - Teachers 
+ - Friends 
+ + Lenders 
+
+(0, 1)
+What is the biggest component that makes up your credit score?
+ - Types of credit 
+ - Income  
+ + Payment history 
+ - New credits 
+
+(0, 1)
+Which of the following is a major credit reporting agency in the US?
+ - Paypal 
+ - Venmo
+ + Equifax 
+ - Zelle 
+
+(0, 1)
+Which of the following negatively impacts your credit score?
+ + Missing a payment 
+ - Paying bills on time 
+ - Good credit history 
+ - Having a credit mix 
+
+(0, 1)
+What is a credit report used for?
+ - College applications 
+ - Track your spending habits 
+ - Track your employment history 
+ + Check your creditworthiness for loans 
+
+(0, 1)
+How often can you check your credit report for free under federal law?
+ - Once every 6 months
+ + Once per year
+ - Once every 3 months
+ - Once every 2 years
+
+(0, 1)
+Which of the following can be included in a credit report?
+ - Age 
+ - Personal Hobbies 
+ + Payment history on loans & credit cards 
+ - Health records 
+
+(0, 1)
+Which of these is considered a “hard inquiry” on your credit report?
+ + Applying for a new credit card
+ - Checking your credit score for informational purposes
+ - Setting up utility service
+ - Asking for a credit limit increase on an existing card
+
+# Account Types
+(1, 1)
+“An account for short term spending goals, provides high interest rates, and is linkable to debit cards” is a..
+ - Savings account
+ - CD
+ + Money market account
+ - Checking account
 
 (1, 1)
-What is 2 + 2?
- + 2 + 2
- - !
- - !
- - !
+What is the main difference between a money market account and a regular savings account?
+ + Money market accounts usually have higher interest rates
+ - Money market accounts are riskier investments
+ - Money market accounts require a much smaller minimum deposit
+ - Savings accounts offer less flexibility with withdrawals
+
+(1, 1)
+Which type of account generally offers the highest interest rates?
+ - Checking account
+ - Regular savings account
+ - Money market account
+ + High-yield savings account
+
+(1, 1)
+What is the main benefit of a certificate of deposit (CD)?
+ - Flexibility with withdrawals
+ + Higher interest rates in exchange for locking in your money for a specific period
+ - Unlimited deposits and withdrawals
+ - No penalties for early withdrawals
+
+(1, 1)
+Which of the following is a key feature of a checking account?
+ - High interest rates
+ - Limited withdrawals
+ + Easy access to your money through checks, debit cards, and ATM withdrawals
+ - Requires a high minimum balance to avoid fees
+
+(1, 1)
+A high-yield savings account is best for someone who:
+ - Wants the highest return with no access to their funds
+ + Needs immediate access to their money without sacrificing much interest
+ - Wants to frequently withdraw cash without penalty
+ - Prefers to invest in stocks and bonds
+
+(1, 1)
+What happens if you withdraw funds from a certificate of deposit (CD) before the maturity date?
+ + You may face a penalty or lose interest
+ - The funds are instantly refunded without any penalties
+ - You will be charged an annual fee
+ - There is no penalty for early withdrawal
+
+(1, 1)
+Which type of account typically offers the most liquidity?
+ - Money market account
+ - Certificate of deposit
+ - High-yield savings account
+ + Checking account
+
+(1, 1)
+Which of these accounts is the best choice for someone who needs to earn interest but is unwilling to lock their money away for a long time?
+ - Certificate of deposit (CD)
+ + Money market account
+ - Regular savings account
+ - Checking account
+
+# Taxes
+(2, 1)
+Which of the following is an example of a regressive tax?
+ - Income tax
+ + Sales tax
+ - Property tax
+ - Corporate tax
 
 (2, 1)
-What is 3 + 2?
- + 3 + 2
- - !
- - !
- - !
+Which tax system is based on the idea that the more income you earn, the higher the percentage of your income you pay?
+ - Regressive tax
+ - Proportional tax
+ + Progressive tax
+ - Flat tax
+
+(2, 1)
+What is the main characteristic of a proportional tax?
+ + Everyone pays the same percentage of income
+ - The more you earn, the higher your tax rate
+ - The less you earn, the higher your tax rate
+ - It only applies to corporations, not individuals
+
+(2, 1)
+Which of the following taxes is typically considered progressive?
+ - Sales tax
+ + Estate tax
+ - Payroll tax
+ - Gasoline tax
+
+(2, 1)
+Which of these is a key feature of a regressive tax system?
+ - Higher income individuals pay a higher percentage of their income
+ - Everyone pays the same percentage regardless of income
+ + Lower income individuals pay a higher percentage of their income
+ - Taxes are only levied on wealth, not income
+
+(2, 1)
+Which of the following is an example of a proportional tax?
+ + A flat income tax rate
+ - Sales tax applied to luxury goods
+ - A progressive income tax rate
+ - Estate taxes
+
+(2, 1)
+Which of these taxes is considered a form of "payroll tax"?
+ - Capital gains tax
+ - Excise tax
+ - Property tax
+ + Medicare tax
+
+(2, 1)
+Which of the following taxes is typically applied to items like gasoline, alcohol, and cigarettes?
+ - Sales tax
+ + Excise tax
+ - Capital gains tax
+ - Estate tax
+
+(2, 1)
+Which of the following is an example of a tax on the transfer of assets between individuals?
+ + Estate tax
+ - Income tax
+ - Sales tax
+ - Excise tax
+
+# Insurance
+(0, 2)
+Which insurance protects personal belongings in a rented property?
+ - Homeowners insurance 
+ - Whole-life insurance 
+ + Renter’s insurance
+ - Auto insurance 
 
 (0, 2)
-What is 1 + 3?
- + 1 + 3
- - !
- - !
- - !
+Which insurance allows you to increase or decrease the death benefit and adjust/skip monthly premiums (within certain limits?)
+ - Whole life insurance
+ + Universal life insurance 
+ - Variable life insurance 
+ - Term life insurance
+
+(0, 2)
+What is the typical term length for a term-life insurance?
+ - 10 years
+ - 5 years
+ + 1 year
+ - 15 years
+
+(0, 2)
+Which type of auto insurance helps pay for repairs or replacements for your vehicle after a collision, regardless of fault? 
+ + Collision
+ - Liability
+ - Comprehensive
+ - Personal Injury
+
+(0, 2)
+Almost all states require this insurance as part of their minimum requirements for auto-insurance. What is it? 
+ - Comprehensive
+ + Liability
+ - Collision 
+ - Personal Injury
+
+(0, 2)
+What type of auto insurance will protect your vehicle from damages caused by theft, vandalism, weather-related damage, or falling tree-limbs?
+ + Comprehensive
+ - Liability
+ - Collision 
+ - Personal Injury
+
+(0, 2)
+Which life insurance helps you pay for the final expenses? 
+ - Variable life insurance
+ + Universal life insurance 
+ - Final expense life insurance
+ - Term life
+
+(0, 2)
+Which of the following is typically covered by a standard homeowners insurance policy?
+ - Lost wages due to unemployment
+ - Medical expenses for injuries sustained in a car accident
+ + Damage to the home caused by fire or theft
+ - Legal fees for court cases
+
+(0, 2)
+Which type of insurance covers the cost of medical bills and health-related expenses?
+ - Auto Insurance
+ - Life Insurance
+ - Pet Insurance
+ + Health Insurance
+
+# Loans
+(1, 2)
+What type of loan is usually used to buy a house?
+ + Mortgage
+ - Auto Loan
+ - Student Loan
+ - Payday Loan
 
 (1, 2)
-What is 2 + 3?
- + 2 + 3
- - !
- - !
- - !
+Which type of loan is used to finance the purchase of a vehicle, often requiring the vehicle itself as collateral?
+ - Personal Loan
+ + Auto Loan
+ - Payday Loan
+ - Credit Card Loan
+
+(1, 2)
+What type of loan is typically used to cover short-term financial needs and often requires repayment within a few weeks?
+ - Auto Loan
+ - Home Equity Loan
+ + Payday Loan
+ - Personal Loan
+
+(1, 2)
+Which loan term will result in lower monthly payments but higher total interest paid over time?
+ - 2-year loan
+ - 5-year loan
+ - 10-year loan
+ + 30-year loan
+
+(1, 2)
+Which loan involves borrowing a lump sum of money, typically at a fixed interest rate, and is repaid in installments over time?
+ - Mortgage Loan
+ - Credit Card Loan
+ + Term Loan
+ - Student Loan
+
+(1, 2)
+What is the main advantage of a secured loan compared to an unsecured loan?
+ + Lower interest rates due to collateral
+ - Longer repayment periods
+ - No credit check required
+ - Lower down payment requirements
+
+(1, 2)
+Which type of loan allows the borrower to use their credit score and income to qualify without needing to provide an asset as collateral?
+ - Secured Loan
+ + Unsecured Loan
+ - Home Equity Loan
+ - Auto Loan
+
+(1, 2)
+What is collateral in the context of a loan?
+ - A type of insurance policy required by the lender
+ - A borrower's personal guarantee to repay the loan
+ + An asset pledged by the borrower to secure the loan
+ - The interest rate charged on the loan
+
+(1, 2)
+What does it mean when a loan has a variable interest rate?
+ - The interest rate is fixed for the entire term of the loan
+ - The interest rate is determined by the borrower’s credit score
+ - The interest rate is lower than fixed-rate loans
+ + The interest rate changes periodically based on market conditions
+
+# Financial Decision Making/Miscellaneous
+(2, 2)
+If you need to choose between two similar items what should you consider?
+ - Lowest cost 
+ - Popularity 
+ - Best quality 
+ + Compare the costs with benefits 
 
 (2, 2)
-What is 3 + 3?
- + 3 + 3
- - !
- - !
- - !
+Each of the following are examples of passive income EXCEPT:
+ - Dividends 
+ + Hourly wages 
+ - Rental income 
+ - Affiliate marketing 
+
+(2, 2)
+15-year mortgages require ___ monthly payments than a 30-year mortgage.
+ - Lower
+ - Same amount of 
+ + Higher
+ - Half
+
+(2, 2)
+If the interest rate in a savings account is 1% and inflation is 3%, what will happen to the value of your money?
+ + Decrease
+ - Increase
+ - Stay the same
+ - Double
+
+(2, 2)
+If you receive an unexpected bonus at work, what should you do first?
+ - Spend it immediately on something fun
+ - Invest all of it in stocks
+ + Allocate part of it to savings before spending the rest
+ - Withdraw it in cash and keep it at home
+
+(2, 2)
+If you have multiple debts, which repayment strategy is generally the most cost-effective?
+ - Paying off the smallest debt first (Snowball method)
+ + Paying off the highest-interest debt first (Avalanche method)
+ - Paying only the minimum amount on all debts
+ - Ignoring debt repayment and investing instead
+
+(2, 2)
+Which of the following is NOT a good reason to use a credit card?
+ - Earning cashback or rewards
+ - Building a good credit history
+ - Making everyday purchases that you can afford
+ + Paying for expenses when you don’t have the money
+
+(2, 2)
+When buying a home, which financial factor is most important to consider?
+ - The size of the house
+ + The mortgage interest rate and loan terms
+ - The color of the walls
+ - The number of bedrooms
+
+(2, 2)
+If your credit score is low, what is the best way to improve it?
+ - Avoid using credit cards altogether
+ + Make on-time payments and reduce debt balances
+ - Take out multiple loans to increase credit history
+ - Ignore your credit score and focus only on savings

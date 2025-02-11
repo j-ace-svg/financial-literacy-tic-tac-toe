@@ -19,6 +19,10 @@ def read_questions_file(questions_file):
                 next_line = questions_file.readline()
                 continue
 
+            if next_line[0] == "#":
+                next_line = questions_file.readline()
+                continue
+
             if next_line[0] == "(":
                 try:
                     state = 1
