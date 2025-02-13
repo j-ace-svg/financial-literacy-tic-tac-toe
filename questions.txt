@@ -256,7 +256,7 @@ Which of these is considered a “hard inquiry” on your credit report?
 
 # Account Types
 (1, 1)
-“An account for short term spending goals, provides high interest rates, and is linkable to debit cards” is a..
+“An account for short term spending goals, provides high interest rates, and is linkable to debit cards” is a...
  - Savings account
  - CD
  + Money market account
