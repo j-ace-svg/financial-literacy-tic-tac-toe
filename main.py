@@ -41,6 +41,41 @@ class Elem():
 
         return tile_image
 
+    def mk_tile_surface_wrap(tile_dims, text, text_rect=None, bg_color=tile_color, fg_color=text_color):
+        tile_image = pygame.Surface(tile_dims)
+        tile_image.fill(bg_color)
+        tile_rect = tile_image.get_rect()
+        if not text_rect:
+            text_rect = pygame.Rect(tile_rect)
+        text_image = pygame.Surface(text_rect.size)
+        text_image.fill(bg_color)
+        y = text_rect.top
+        line_spacing = -2
+        font_height = font.size("Tg")[1]
+
+        while text:
+            i = 1
+
+            if y + font_height > text_rect.bottom:
+                break
+
+            while font.size(text[:i+1])[0] < text_rect.width and i < len(text):
+                i += 1
+
+            if i < len(text) or (" " in text and font.size(text[:i+1])[0] > text_rect.width):
+                i = text.rfind(" ", 0, i) + 1
+
+            letter_image = font.render(text[:i], True, fg_color)
+
+            text_image.blit(letter_image, (text_rect.left, y))
+            y += font_height + line_spacing
+
+            text = text[i:]
+
+        tile_image.blit(text_image, text_rect.topleft)
+
+        return tile_image
+
 class Button(Elem):
     def __init__(self, image, coords):
         super().__init__(image, coords)
@@ -170,22 +205,49 @@ class GameState():
         for index, answer in enumerate(answers):
             if answer[1]: self.correct_answer = index
 
-        answer_width = 160
+        answer_y = 400
+        answer_width = 180
+        answer_height = 150
+        answer_margin = 5
         answer_pad = 20
+
+        prompt_y = 100
+        prompt_width = 700
+        prompt_height = 160
+        prompt_border = 5
+        prompt_margin = 5
+
+        prompt_tile = Elem(
+            Elem.mk_tile_surface((prompt_width + prompt_border * 2, prompt_height + prompt_border * 2), "", bg_color=tile_color),
+            ((screen_width - prompt_width) / 2 - prompt_border, prompt_y),
+        )
+        prompt_tile.image.blit(
+            Elem.mk_tile_surface_wrap(
+                (prompt_width, prompt_height),
+                question["prompt"],
+                bg_color=bg_color,
+                text_rect=pygame.Rect(prompt_margin, prompt_margin, prompt_width - prompt_margin * 2, prompt_height - prompt_margin * 2),
+            ),
+            (prompt_border, prompt_border),
+        )
 
         self.elems = {
                 "buttons": {
                     "answer-" + str(index): Button(
-                        Elem.mk_tile_surface((answer_width, 80), answer[0]),
+                        Elem.mk_tile_surface_wrap(
+                            (answer_width, answer_height),
+                            answer[0],
+                            text_rect=pygame.Rect(answer_margin, answer_margin, answer_width - answer_margin * 2, answer_height - answer_margin * 2),
+                        ),
                         (
                             (screen_width - answer_pad) / 2 + (answer_width + answer_pad) * (index - 2),
-                            400,
+                            answer_y,
                         ),
                     ) for (index, answer) in enumerate(answers)
                 },
                 "text": {
                     "title": Elem(Elem.mk_tile_surface((450, 40), "Financial Literacy Tic-Tac-Toe", bg_color=bg_color), ((screen_width - 450) / 2, 50)),
-                    "prompt": Elem(Elem.mk_tile_surface((450, 40), question["prompt"], bg_color=bg_color), ((screen_width - 450) / 2, 100)),
+                    "prompt": prompt_tile,
                 },
         }
         self.current_screen = 2
