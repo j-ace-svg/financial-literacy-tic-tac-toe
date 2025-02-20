@@ -8,6 +8,10 @@ import read_file
 
 pygame.init()
 
+print()
+print()
+print()
+print()
 print("HEY!!! You!")
 print()
 print("Yeah, you running the program.")
@@ -19,6 +23,8 @@ print()
 print("You can install pygame-ce the same way you installed pygame (if you weren't the person who installed pygame on this computer, talk to them). If you used pip, then you would run `pip uninstall pygame` and then `pip install pygame-ce`.")
 print()
 print("Thank you for your time, and have fun running the program.")
+print()
+print()
 print()
 print()
 
@@ -155,6 +161,33 @@ class GameState():
         mouse_pos = pygame.mouse.get_pos()
         if not self.elems["buttons"][self.click_elem].eval_click(mouse_pos):
             self.click_elem = None
+
+    def check_win(self, board):
+        """
+        Check the supplied board state for a winner. A 1 or 2 indicates a player win, a 0 indicates an unfinished game, and -1 indicates a draw
+        """
+        for row in range(3):
+            value = board[row][0]
+            if (not value == 0) and (value == board[row][1]) and (value == board[row][2]):
+                return value
+
+        for col in range(3):
+            value = board[0][col]
+            if (not value == 0) and (value == board[1][col]) and (value == board[2][row]):
+                return value
+
+        for i in range(2):
+            sign = i*2 - 1
+            value = board[1 + sign][0]
+            if (not value == 0) and (value == board[1][1]) and (value == board[1 - sign][0]):
+                return value
+
+        for row in range(3):
+            for col in range(3):
+                if board[row][col] == 0:
+                    return 0
+
+        return -1
 
     def main_screen_init(self):
         self.elems = {
@@ -332,6 +365,7 @@ class GameState():
                 case pygame.MOUSEBUTTONUP:
                     if self.click_elem == "answer-" + str(self.correct_answer):
                         self.secondary_board_state[self.primary_coord[0]][self.primary_coord[1]][self.secondary_coord[0]][self.secondary_coord[1]] = 1
+                        print(self.check_win(self.secondary_board_state[self.primary_coord[0]][self.primary_coord[1]]))
                         self.primary_board_screen_init()
                     elif self.click_elem:
                         self.primary_board_screen_init()
