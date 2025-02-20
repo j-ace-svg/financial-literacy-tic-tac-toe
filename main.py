@@ -15,6 +15,7 @@ screen_width = 864
 screen_height = 936
 bg_color = (150, 150, 150)
 tile_color = (100, 100, 100)
+global_tile_color = (255, 255, 255)
 text_color = (255, 255, 255)
 
 screen = pygame.display.set_mode((screen_width, screen_height))
@@ -88,15 +89,32 @@ class GameState():
         self.current_screen = 0
         self.screen_list = [
             self.main_screen,
-            self.board_screen,
+            self.primary_board_screen,
+            self.secondary_board_screen,
             self.question_screen,
         ]
         self.run = True
         self.elems = {}
         self.click_elem = None
-        self.coord = (0, 0)
+        self.primary_coord = (0, 0)
+        self.secondary_coord = (0, 0)
         self.correct_answer = 0
-        self.board_state = [ [0 for _ in range(3)] for _ in range(3) ]
+        self.primary_board_state = [[0 for _ in range(3)] for _ in range(3)]
+        self.secondary_board_state = [[[[0 for _ in range(3)] for _ in range(3)] for _ in range(3)] for _ in range(3)]
+
+        # Tiles
+        self.grid_pad = 20
+        self.tile_size = 160
+        self.empty_tile = Elem.mk_tile_surface((self.tile_size, self.tile_size), "")
+
+        icon_radius = 3 * self.tile_size / 8
+
+        self.o_tile = self.empty_tile.copy()
+        pygame.draw.circle(self.o_tile, text_color, (self.tile_size / 2, self.tile_size / 2), icon_radius, int(self.tile_size / 16))
+
+        self.x_tile = self.empty_tile.copy()
+        pygame.draw.line(self.x_tile, text_color, (self.tile_size - 2 * icon_radius, self.tile_size - 2 * icon_radius), (2 * icon_radius, 2 * icon_radius), int(self.tile_size / 16))
+        pygame.draw.line(self.x_tile, text_color, (self.tile_size - 2 * icon_radius, 2 * icon_radius), (2 * icon_radius, self.tile_size - 2 * icon_radius), int(self.tile_size / 16))
 
     def main(self, screen):
         self.screen_list[self.current_screen](screen)
@@ -107,11 +125,16 @@ class GameState():
             for elem in self.elems[category]:
                 screen.blit(self.elems[category][elem].image, self.elems[category][elem].rect.topleft)
 
-    def start_click(self):
+    def start_click(self, event):
+        if not event.button == 1: return
         mouse_pos = pygame.mouse.get_pos()
         for elem in self.elems["buttons"]:
             if self.elems["buttons"][elem].eval_click(mouse_pos):
                 self.click_elem = elem
+
+    def end_click(self, event):
+        if not event.button == 1: return
+        self.click_elem = None
 
     def update_click(self):
         if not self.click_elem: return
@@ -140,39 +163,36 @@ class GameState():
                 case pygame.QUIT:
                     self.run = False
                 case pygame.MOUSEBUTTONDOWN:
-                    self.start_click()
+                    self.start_click(event)
                 case pygame.MOUSEBUTTONUP:
                     match self.click_elem:
                         case "quit":
                             self.run = False
                         case "start":
-                            self.board_screen_init()
-                    self.click_elem = None
+                            self.primary_board_screen_init()
+                    self.end_click(event)
 
-    def board_screen_init(self):
-        grid_pad = 20
-        tile_size = 160
+    def primary_board_screen_init(self):
+        sub_boards = [ [ None for primary_col in range(3) ] for primary_row in range(3) ]
+        for primary_row in range(3):
+            for primary_col in range(3):
+                sub_board_large = Elem.mk_tile_surface((self.tile_size * 3 + self.grid_pad * 4, self.tile_size * 3 + self.grid_pad * 4), "", bg_color = global_tile_color)
+                for secondary_row in range(3):
+                    for secondary_col in range(3):
+                        sub_board_large.blit(self.empty_tile if self.secondary_board_state[primary_row][primary_col][secondary_row][secondary_col] == 0 else self.x_tile, (secondary_col * (self.tile_size + self.grid_pad) + self.grid_pad, secondary_row * (self.tile_size + self.grid_pad) + self.grid_pad))
 
-        empty_tile = Elem.mk_tile_surface((tile_size, tile_size), "")
-
-        icon_radius = 3 * tile_size / 8
-
-        o_tile = empty_tile.copy()
-        pygame.draw.circle(o_tile, text_color, (tile_size / 2, tile_size / 2), icon_radius, int(tile_size / 16))
-
-        x_tile = empty_tile.copy()
-        pygame.draw.line(x_tile, text_color, (tile_size - 2 * icon_radius, tile_size - 2 * icon_radius), (2 * icon_radius, 2 * icon_radius), int(tile_size / 16))
-        pygame.draw.line(x_tile, text_color, (tile_size - 2 * icon_radius, 2 * icon_radius), (2 * icon_radius, tile_size - 2 * icon_radius), int(tile_size / 16))
+                sub_boards[primary_row][primary_col] = pygame.transform.scale(sub_board_large, (self.tile_size, self.tile_size))
 
         self.elems = {
                 "buttons": {
                     (row, col): Button(
-                        empty_tile if self.board_state[row][col] == 0 else x_tile,
+                    #    self.empty_tile if self.primary_board_state[row][col] == 0 else self.x_tile,
+                        sub_boards[row][col],
                         (
-                            (screen_width - tile_size) / 2 + (tile_size + grid_pad) * (col - 1),
-                            (screen_height - tile_size) / 2 + (tile_size + grid_pad) * (row - 1),
+                            (screen_width - self.tile_size) / 2 + (self.tile_size + self.grid_pad) * (col - 1),
+                            (screen_height - self.tile_size) / 2 + (self.tile_size + self.grid_pad) * (row - 1),
                         ),
-                    ) for row in range(3) for col in range(3)
+                     ) for row in range(3) for col in range(3)
                 },
                 "text": {
                     "title": Elem(Elem.mk_tile_surface((450, 40), "Financial Literacy Tic-Tac-Toe", bg_color=bg_color), ((screen_width - 450) / 2, 50)),
@@ -180,7 +200,7 @@ class GameState():
         }
         self.current_screen = 1
 
-    def board_screen(self, screen):
+    def primary_board_screen(self, screen):
         self.disp_scene()
         self.update_click()
 
@@ -189,15 +209,48 @@ class GameState():
                 case pygame.QUIT:
                     self.run = False
                 case pygame.MOUSEBUTTONDOWN:
-                    self.start_click()
+                    self.start_click(event)
                 case pygame.MOUSEBUTTONUP:
                     if self.click_elem:
-                        self.coord = self.click_elem
+                        self.primary_coord = self.click_elem
+                        self.secondary_board_screen_init()
+                    self.end_click(event)
+
+    def secondary_board_screen_init(self):
+        self.elems = {
+                "buttons": {
+                    (row, col): Button(
+                        self.empty_tile if self.secondary_board_state[self.primary_coord[0]][self.primary_coord[1]][row][col] == 0 else self.x_tile,
+                        (
+                            (screen_width - self.tile_size) / 2 + (self.tile_size + self.grid_pad) * (col - 1),
+                            (screen_height - self.tile_size) / 2 + (self.tile_size + self.grid_pad) * (row - 1),
+                        ),
+                    ) for row in range(3) for col in range(3)
+                },
+                "text": {
+                    "title": Elem(Elem.mk_tile_surface((450, 40), questions[self.primary_coord[0]][self.primary_coord[1]]["title"], bg_color=bg_color), ((screen_width - 450) / 2, 50)),
+                },
+        }
+        self.current_screen = 2
+
+    def secondary_board_screen(self, screen):
+        self.disp_scene()
+        self.update_click()
+
+        for event in pygame.event.get():
+            match event.type:
+                case pygame.QUIT:
+                    self.run = False
+                case pygame.MOUSEBUTTONDOWN:
+                    self.start_click(event)
+                case pygame.MOUSEBUTTONUP:
+                    if self.click_elem:
+                        self.secondary_coord = self.click_elem
                         self.question_screen_init()
-                    self.click_elem = None
+                    self.end_click(event)
 
     def question_screen_init(self):
-        question = random.choice(questions[self.coord[0]][self.coord[1]])
+        question = questions[self.primary_coord[0]][self.primary_coord[1]]["questions"][self.secondary_coord[0]][self.secondary_coord[1]]
         answers = [(question["answers"]["correct"], True)]
         answers.extend((answer, False) for answer in question["answers"]["incorrect"])
         random.shuffle(answers)
@@ -250,7 +303,7 @@ class GameState():
                     "prompt": prompt_tile,
                 },
         }
-        self.current_screen = 2
+        self.current_screen = 3
 
     def question_screen(self, screen):
         self.disp_scene()
@@ -261,14 +314,14 @@ class GameState():
                 case pygame.QUIT:
                     self.run = False
                 case pygame.MOUSEBUTTONDOWN:
-                    self.start_click()
+                    self.start_click(event)
                 case pygame.MOUSEBUTTONUP:
                     if self.click_elem == "answer-" + str(self.correct_answer):
-                        self.board_state[self.coord[0]][self.coord[1]] = 1
-                        self.board_screen_init()
+                        self.secondary_board_state[self.primary_coord[0]][self.primary_coord[1]][self.secondary_coord[0]][self.secondary_coord[1]] = 1
+                        self.primary_board_screen_init()
                     elif self.click_elem:
-                        self.board_screen_init()
-                    self.click_elem = None
+                        self.primary_board_screen_init()
+                    self.end_click(event)
 
 state = GameState()
 state.main_screen_init()
