@@ -8,6 +8,20 @@ import read_file
 
 pygame.init()
 
+print("HEY!!! You!")
+print()
+print("Yeah, you running the program.")
+print()
+print("This program is designed to use Pygame-CE (Pygame Community Edition), not regular Pygame. They're very similar, but there might be some slight differences, and I only test this on Pygame-CE.")
+print()
+print("So, if you get an error that seems weird (or, if you aren't familiar with python, any error), MAKE SURE YOU'RE USING PYGAME-CE.")
+print()
+print("You can install pygame-ce the same way you installed pygame (if you weren't the person who installed pygame on this computer, talk to them). If you used pip, then you would run `pip uninstall pygame` and then `pip install pygame-ce`.")
+print()
+print("Thank you for your time, and have fun running the program.")
+print()
+print()
+
 fps = 60
 clock = pygame.Clock()
 
