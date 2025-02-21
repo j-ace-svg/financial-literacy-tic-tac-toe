@@ -187,7 +187,7 @@ class GameState():
 
         for col in range(3):
             value = board[0][col]
-            if (not value == 0) and (value == board[1][col]) and (value == board[2][row]):
+            if (not value == 0) and (value == board[1][col]) and (value == board[2][col]):
                 return value
 
         for i in range(2):
