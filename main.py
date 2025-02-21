@@ -37,6 +37,7 @@ bg_color = (150, 150, 150)
 tile_color = (100, 100, 100)
 global_tile_color = (255, 255, 255)
 text_color = (255, 255, 255)
+primary_board_icon_color = (255, 0, 0)
 
 screen = pygame.display.set_mode((screen_width, screen_height))
 pygame.display.set_caption('Financial Literacy Tic-Tac-Toe')
@@ -129,12 +130,25 @@ class GameState():
 
         icon_radius = 3 * self.tile_size / 8
 
+        self.o_tile_transparent = pygame.Surface((self.tile_size, self.tile_size), pygame.SRCALPHA)
+        pygame.draw.circle(self.o_tile_transparent, text_color, (self.tile_size / 2, self.tile_size / 2), icon_radius, int(self.tile_size / 16))
+
+        self.o_tile_transparent_primary = pygame.Surface((self.tile_size, self.tile_size), pygame.SRCALPHA)
+        pygame.draw.circle(self.o_tile_transparent_primary, primary_board_icon_color, (self.tile_size / 2, self.tile_size / 2), icon_radius, int(self.tile_size / 16))
+
         self.o_tile = self.empty_tile.copy()
-        pygame.draw.circle(self.o_tile, text_color, (self.tile_size / 2, self.tile_size / 2), icon_radius, int(self.tile_size / 16))
+        self.o_tile.blit(self.o_tile_transparent, (0, 0))
+
+        self.x_tile_transparent = pygame.Surface((self.tile_size, self.tile_size), pygame.SRCALPHA)
+        pygame.draw.line(self.x_tile_transparent, text_color, (self.tile_size - 2 * icon_radius, self.tile_size - 2 * icon_radius), (2 * icon_radius, 2 * icon_radius), int(self.tile_size / 16))
+        pygame.draw.line(self.x_tile_transparent, text_color, (self.tile_size - 2 * icon_radius, 2 * icon_radius), (2 * icon_radius, self.tile_size - 2 * icon_radius), int(self.tile_size / 16))
+
+        self.x_tile_transparent_primary = pygame.Surface((self.tile_size, self.tile_size), pygame.SRCALPHA)
+        pygame.draw.line(self.x_tile_transparent_primary, primary_board_icon_color, (self.tile_size - 2 * icon_radius, self.tile_size - 2 * icon_radius), (2 * icon_radius, 2 * icon_radius), int(self.tile_size / 16))
+        pygame.draw.line(self.x_tile_transparent_primary, primary_board_icon_color, (self.tile_size - 2 * icon_radius, 2 * icon_radius), (2 * icon_radius, self.tile_size - 2 * icon_radius), int(self.tile_size / 16))
 
         self.x_tile = self.empty_tile.copy()
-        pygame.draw.line(self.x_tile, text_color, (self.tile_size - 2 * icon_radius, self.tile_size - 2 * icon_radius), (2 * icon_radius, 2 * icon_radius), int(self.tile_size / 16))
-        pygame.draw.line(self.x_tile, text_color, (self.tile_size - 2 * icon_radius, 2 * icon_radius), (2 * icon_radius, self.tile_size - 2 * icon_radius), int(self.tile_size / 16))
+        self.x_tile.blit(self.x_tile_transparent, (0, 0))
 
     def main(self, screen):
         self.screen_list[self.current_screen](screen)
@@ -188,6 +202,16 @@ class GameState():
                     return 0
 
         return -1
+    
+    def opponent_move(self):
+        available_spots = []
+        for row in range(3):
+            for col in range(3):
+                if self.secondary_board_state[self.primary_coord[0]][self.primary_coord[1]][row][col] == 0:
+                    available_spots.append((row, col))
+
+        selected_coord = random.choice(available_spots)
+        self.secondary_board_state[self.primary_coord[0]][self.primary_coord[1]][selected_coord[0]][selected_coord[1]] = 2
 
     def main_screen_init(self):
         self.elems = {
@@ -226,9 +250,14 @@ class GameState():
                 sub_board_large = Elem.mk_tile_surface((self.tile_size * 3 + self.grid_pad * 4, self.tile_size * 3 + self.grid_pad * 4), "", bg_color = global_tile_color)
                 for secondary_row in range(3):
                     for secondary_col in range(3):
-                        sub_board_large.blit(self.empty_tile if self.secondary_board_state[primary_row][primary_col][secondary_row][secondary_col] == 0 else self.x_tile, (secondary_col * (self.tile_size + self.grid_pad) + self.grid_pad, secondary_row * (self.tile_size + self.grid_pad) + self.grid_pad))
+                        player = self.secondary_board_state[primary_row][primary_col][secondary_row][secondary_col]
+                        sub_board_large.blit(self.empty_tile if player == 0 else self.x_tile if player == 1 else self.o_tile, (secondary_col * (self.tile_size + self.grid_pad) + self.grid_pad, secondary_row * (self.tile_size + self.grid_pad) + self.grid_pad))
 
                 sub_boards[primary_row][primary_col] = pygame.transform.scale(sub_board_large, (self.tile_size, self.tile_size))
+                if self.primary_board_state[primary_row][primary_col] == 1:
+                    sub_boards[primary_row][primary_col].blit(self.x_tile_transparent_primary, (0, 0))
+                elif self.primary_board_state[primary_row][primary_col] == 2:
+                    sub_boards[primary_row][primary_col].blit(self.o_tile_transparent_primary, (0, 0))
 
         self.elems = {
                 "buttons": {
@@ -258,21 +287,24 @@ class GameState():
                 case pygame.MOUSEBUTTONDOWN:
                     self.start_click(event)
                 case pygame.MOUSEBUTTONUP:
-                    if self.click_elem:
+                    if self.click_elem and self.primary_board_state[self.click_elem[0]][self.click_elem[1]] == 0:
                         self.primary_coord = self.click_elem
                         self.secondary_board_screen_init()
                     self.end_click(event)
 
     def secondary_board_screen_init(self):
+        secondary_board = self.secondary_board_state[self.primary_coord[0]][self.primary_coord[1]]
         self.elems = {
                 "buttons": {
                     (row, col): Button(
-                        self.empty_tile if self.secondary_board_state[self.primary_coord[0]][self.primary_coord[1]][row][col] == 0 else self.x_tile,
+                        self.empty_tile if secondary_board[row][col] == 0 else self.x_tile if secondary_board[row][col] == 1 else self.o_tile,
                         (
                             (screen_width - self.tile_size) / 2 + (self.tile_size + self.grid_pad) * (col - 1),
                             (screen_height - self.tile_size) / 2 + (self.tile_size + self.grid_pad) * (row - 1),
                         ),
                     ) for row in range(3) for col in range(3)
+                } | {
+                    "back": Button(Elem.mk_tile_surface((160, 40), "Back"), ((screen_width - 160) / 2, 800)),
                 },
                 "text": {
                     "title": Elem(Elem.mk_tile_surface((450, 40), questions[self.primary_coord[0]][self.primary_coord[1]]["title"], bg_color=bg_color), ((screen_width - 450) / 2, 50)),
@@ -292,8 +324,11 @@ class GameState():
                     self.start_click(event)
                 case pygame.MOUSEBUTTONUP:
                     if self.click_elem:
-                        self.secondary_coord = self.click_elem
-                        self.question_screen_init()
+                        if self.click_elem == "back":
+                            self.primary_board_screen_init()
+                        elif self.secondary_board_state[self.primary_coord[0]][self.primary_coord[1]][self.click_elem[0]][self.click_elem[1]] == 0:
+                            self.secondary_coord = self.click_elem
+                            self.question_screen_init()
                     self.end_click(event)
 
     def question_screen_init(self):
@@ -365,7 +400,8 @@ class GameState():
                 case pygame.MOUSEBUTTONUP:
                     if self.click_elem == "answer-" + str(self.correct_answer):
                         self.secondary_board_state[self.primary_coord[0]][self.primary_coord[1]][self.secondary_coord[0]][self.secondary_coord[1]] = 1
-                        print(self.check_win(self.secondary_board_state[self.primary_coord[0]][self.primary_coord[1]]))
+                        self.opponent_move()
+                        self.primary_board_state[self.primary_coord[0]][self.primary_coord[1]] = self.check_win(self.secondary_board_state[self.primary_coord[0]][self.primary_coord[1]])
                         self.primary_board_screen_init()
                     elif self.click_elem:
                         self.primary_board_screen_init()
