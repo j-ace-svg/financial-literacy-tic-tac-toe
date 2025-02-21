@@ -205,13 +205,53 @@ class GameState():
     
     def opponent_move(self):
         available_spots = []
-        for row in range(3):
-            for col in range(3):
-                if self.secondary_board_state[self.primary_coord[0]][self.primary_coord[1]][row][col] == 0:
-                    available_spots.append((row, col))
 
-        selected_coord = random.choice(available_spots)
-        self.secondary_board_state[self.primary_coord[0]][self.primary_coord[1]][selected_coord[0]][selected_coord[1]] = 2
+        # Find available squares in last played secondary board
+        last_secondary_board = self.secondary_board_state[self.primary_coord[0]][self.primary_coord[1]]
+        if self.check_win(self.secondary_board_state[self.primary_coord[0]][self.primary_coord[1]]) == 0:
+            for row in range(3):
+                for col in range(3):
+                    if last_secondary_board[row][col] == 0:
+                        available_spots.append((row, col))
+
+        # Can play in last played secondary board
+        if available_spots:
+            selected_coord = random.choice(available_spots)
+            self.secondary_board_state[self.primary_coord[0]][self.primary_coord[1]][selected_coord[0]][selected_coord[1]] = 2
+
+        # Cannot play in last played secondary board
+        else:
+            unfinished_boards = []
+            unfinished_played_boards = []
+            for primary_row in range(3):
+                for primary_col in range(3):
+                    if self.primary_board_state[primary_row][primary_col] == 0:
+                        unfinished_boards.append(((primary_row, primary_col), self.secondary_board_state[primary_row][primary_col]))
+
+                        board_empty = True
+                        for secondary_row in range(3):
+                            for secondary_col in range(3):
+                                if not self.secondary_board_state[primary_row][primary_col][secondary_row][secondary_col] == 0:
+                                    board_empty = False
+
+                        if not board_empty:
+                            unfinished_played_boards.append(((primary_row, primary_col), self.secondary_board_state[primary_row][primary_col]))
+
+            selected_primary_board = None
+            if unfinished_played_boards:
+                selected_primary_board = random.choice(unfinished_played_boards)
+            elif unfinished_boards:
+                selected_primary_board = random.choice(unfinished_boards)
+            else:
+                return
+
+            for row in range(3):
+                for col in range(3):
+                    if selected_primary_board[1][row][col] == 0:
+                        available_spots.append((row, col))
+
+            selected_coord = random.choice(available_spots)
+            self.secondary_board_state[selected_primary_board[0][0]][selected_primary_board[0][1]][selected_coord[0]][selected_coord[1]] = 2
 
     def main_screen_init(self):
         self.elems = {
@@ -400,6 +440,7 @@ class GameState():
                 case pygame.MOUSEBUTTONUP:
                     if self.click_elem == "answer-" + str(self.correct_answer):
                         self.secondary_board_state[self.primary_coord[0]][self.primary_coord[1]][self.secondary_coord[0]][self.secondary_coord[1]] = 1
+                        self.primary_board_state[self.primary_coord[0]][self.primary_coord[1]] = self.check_win(self.secondary_board_state[self.primary_coord[0]][self.primary_coord[1]])
                         self.opponent_move()
                         self.primary_board_state[self.primary_coord[0]][self.primary_coord[1]] = self.check_win(self.secondary_board_state[self.primary_coord[0]][self.primary_coord[1]])
                         self.primary_board_screen_init()
