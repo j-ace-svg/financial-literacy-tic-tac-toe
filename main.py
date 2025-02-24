@@ -193,7 +193,7 @@ class GameState():
         for i in range(2):
             sign = i*2 - 1
             value = board[1 + sign][0]
-            if (not value == 0) and (value == board[1][1]) and (value == board[1 - sign][0]):
+            if (not value == 0) and (value == board[1][1]) and (value == board[1 - sign][2]):
                 return value
 
         for row in range(3):
