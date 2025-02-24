@@ -13,7 +13,7 @@ You can download from github by selecting the green `Code` button, and then down
 ## Running the game
 After extracting the project in File Explorer, open the extracted folder. Then, press <kbd>⇧ Shift</kbd> + <kbd>Right click</kbd> in any empty space and select `Open command window here` or `Open PowerShell window here`.
 
-In the Powershell or Command Prompt window, type `python main.py`, and the program should launch. Pay attention to the warning that is displayed in the console, which I also reproduce here:
+In the Powershell or Command Prompt window, type `python main.py` and then press <kbd>Enter</kbd>, and the program should launch. Pay attention to the warning that is displayed in the console, which I also reproduce here:
 
 > HEY!!! You!
 > <br><br>
