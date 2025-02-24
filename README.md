@@ -11,7 +11,7 @@ Please note that the game is tested with pygame-ce but not pygame, so if you cho
 You can download from github by selecting the green `Code` button, and then download zip. To extract the zip on Windows, right click the zip in File Explorer and select `Extract All`.
 
 ## Running the game
-After extracting the project in File Explorer, open the extracted folder. Then, right click in any empty space and select `Open Cmd window here` or `Open PowerShell window here`.
+After extracting the project in File Explorer, open the extracted folder. Then, press <kbd>⇧ Shift</kbd> + <kbd>Right click</kbd> in any empty space and select `Open command window here` or `Open PowerShell window here`.
 
 In the Powershell or Command Prompt window, type `python main.py`, and the program should launch. Pay attention to the warning that is displayed in the console, which I also reproduce here:
 
