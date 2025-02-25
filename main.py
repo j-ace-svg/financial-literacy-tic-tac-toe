@@ -107,7 +107,8 @@ class Button(Elem):
         super().__init__(image, coords)
 
     def eval_click(self, coords):
-        return self.rect.collidepoint(coords)
+        scaled_coords = (coords[0] / window_scaling, coords[1] / window_scaling)
+        return self.rect.collidepoint(scaled_coords)
 
 class GameState():
     def __init__(self):
