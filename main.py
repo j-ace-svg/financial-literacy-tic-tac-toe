@@ -156,6 +156,7 @@ class GameState():
         self.primary_coord = (0, 0)
         self.secondary_coord = (0, 0)
         self.correct_answer = 0
+        self.responded_correctly = -1
         self.primary_board_state = [[0 for _ in range(3)] for _ in range(3)]
         self.secondary_board_state = [[[[0 for _ in range(3)] for _ in range(3)] for _ in range(3)] for _ in range(3)]
         self.winner = 0
@@ -309,6 +310,12 @@ class GameState():
                 elif self.primary_board_state[primary_row][primary_col] == 2:
                     sub_boards[primary_row][primary_col].blit(self.o_tile_transparent_primary, (0, 0))
 
+        response_notification_text = ""
+        if self.responded_correctly == 0:
+            response_notification_text = "Incorrect"
+        elif self.responded_correctly == 1:
+            response_notification_text = "Correct"
+
         self.elems = {
                 "buttons": {
                     (row, col): Button(
@@ -322,6 +329,7 @@ class GameState():
                 },
                 "text": {
                     "title": Elem(Elem.mk_tile_surface((450, 40), "Financial Literacy Tic-Tac-Toe", bg_color=bg_color), ((screen_width - 450) / 2, 50)),
+                    "response_notification": Elem(Elem.mk_tile_surface((450, 40), response_notification_text, bg_color=bg_color), ((screen_width - 450) / 2, 130)),
                 },
         }
         self.current_screen = 1
@@ -449,6 +457,7 @@ class GameState():
                     self.start_click(event)
                 case pygame.MOUSEBUTTONUP:
                     if self.click_elem == "answer-" + str(self.correct_answer):
+                        self.responded_correctly = 1
                         self.secondary_board_state[self.primary_coord[0]][self.primary_coord[1]][self.secondary_coord[0]][self.secondary_coord[1]] = 1
                         self.primary_board_state[self.primary_coord[0]][self.primary_coord[1]] = self.check_win(self.secondary_board_state[self.primary_coord[0]][self.primary_coord[1]])
                         self.opponent_move()
@@ -460,6 +469,7 @@ class GameState():
                         else:
                             self.winner_screen_init()
                     elif self.click_elem:
+                        self.responded_correctly = 0
                         self.primary_board_screen_init()
                     self.end_click(event)
 
