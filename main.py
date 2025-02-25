@@ -541,7 +541,7 @@ class GameState():
                             self.run = False
                         case "restart":
                             self.setup_game()
-                            self.primary_board_screen_init()
+                            self.main_screen_init()
                     self.end_click(event)
 
 state = GameState()
