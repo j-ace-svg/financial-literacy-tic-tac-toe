@@ -33,13 +33,17 @@ clock = pygame.Clock()
 
 screen_width = 864
 screen_height = 936
+monitor_width, monitor_height = pygame.display.get_desktop_sizes()[0]
+window_scaling_width, window_scaling_height = 1920 / monitor_width, 1080 / monitor_height
+window_scaling = min(window_scaling_width, window_scaling_height)
 bg_color = (150, 150, 150)
 tile_color = (100, 100, 100)
 global_tile_color = (255, 255, 255)
 text_color = (255, 255, 255)
 primary_board_icon_color = (255, 0, 0)
 
-screen = pygame.display.set_mode((screen_width, screen_height))
+screen = pygame.display.set_mode((screen_width * window_scaling, screen_height * window_scaling))
+screen_unscaled = pygame.Surface((screen_width, screen_height))
 pygame.display.set_caption('Financial Literacy Tic-Tac-Toe')
 
 font = pygame.font.SysFont(None, 30)
@@ -159,7 +163,7 @@ class GameState():
         self.screen_list[self.current_screen](screen)
         return self.run
 
-    def disp_scene(self):
+    def disp_scene(self, screen):
         for category in self.elems:
             for elem in self.elems[category]:
                 screen.blit(self.elems[category][elem].image, self.elems[category][elem].rect.topleft)
@@ -271,7 +275,7 @@ class GameState():
         self.current_screen = 0
 
     def main_screen(self, screen):
-        self.disp_scene()
+        self.disp_scene(screen)
         self.update_click()
 
         for event in pygame.event.get():
@@ -322,7 +326,7 @@ class GameState():
         self.current_screen = 1
 
     def primary_board_screen(self, screen):
-        self.disp_scene()
+        self.disp_scene(screen)
         self.update_click()
 
         for event in pygame.event.get():
@@ -358,7 +362,7 @@ class GameState():
         self.current_screen = 2
 
     def secondary_board_screen(self, screen):
-        self.disp_scene()
+        self.disp_scene(screen)
         self.update_click()
 
         for event in pygame.event.get():
@@ -433,7 +437,7 @@ class GameState():
         self.current_screen = 3
 
     def question_screen(self, screen):
-        self.disp_scene()
+        self.disp_scene(screen)
         self.update_click()
 
         for event in pygame.event.get():
@@ -480,7 +484,7 @@ class GameState():
         self.current_screen = 4
 
     def winner_screen(self, screen):
-        self.disp_scene()
+        self.disp_scene(screen)
         self.update_click()
 
         for event in pygame.event.get():
@@ -504,8 +508,9 @@ state.main_screen_init()
 run = True
 while run:
     clock.tick(fps)
-    screen.fill(bg_color)
+    screen_unscaled.fill(bg_color)
 
-    run = state.main(screen)
+    run = state.main(screen_unscaled)
+    screen.blit(pygame.transform.scale(screen_unscaled, (screen_width * window_scaling, screen_height * window_scaling)), (0, 0))
 
     pygame.display.update()
