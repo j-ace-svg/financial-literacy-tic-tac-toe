@@ -471,6 +471,15 @@ class GameState():
                     elif self.click_elem:
                         self.responded_correctly = 0
                         self.primary_board_screen_init()
+
+                        self.opponent_move()
+                        self.primary_board_state[self.primary_coord[0]][self.primary_coord[1]] = self.check_win(self.secondary_board_state[self.primary_coord[0]][self.primary_coord[1]])
+
+                        self.winner = self.check_win(self.primary_board_state)
+                        if self.winner == 0:
+                            self.primary_board_screen_init()
+                        else:
+                            self.winner_screen_init()
                     self.end_click(event)
 
     def winner_screen_init(self):
