@@ -124,10 +124,12 @@ class GameState():
         self.elems = {}
         self.click_elem = None
         self.setup_game()
+        self.tutorial = True
 
         # Tiles
         self.grid_pad = 20
         self.tile_size = 160
+        self.checkbox_size = 40
         self.empty_tile = Elem.mk_tile_surface((self.tile_size, self.tile_size), "")
 
         icon_radius = 3 * self.tile_size / 8
@@ -151,6 +153,14 @@ class GameState():
 
         self.x_tile = self.empty_tile.copy()
         self.x_tile.blit(self.x_tile_transparent, (0, 0))
+
+        self.checkmark_transparent = pygame.Surface((self.checkbox_size, self.checkbox_size), pygame.SRCALPHA)
+        pygame.draw.line(self.checkmark_transparent, text_color, (0.1 * self.checkbox_size, self.checkbox_size * 2 / 3 * 0.9), (self.checkbox_size / 3 * 0.9, self.checkbox_size * 0.9), int(self.checkbox_size / 16))
+        pygame.draw.line(self.checkmark_transparent, text_color, (self.checkbox_size / 3 * 0.9, self.checkbox_size * 0.9), (self.checkbox_size * 0.9, 0.1 * self.checkbox_size), int(self.checkbox_size / 16))
+
+        self.empty_checkbox = Elem.mk_tile_surface((self.checkbox_size, self.checkbox_size), "")
+        self.filled_checkbox = self.empty_checkbox.copy()
+        self.filled_checkbox.blit(self.checkmark_transparent, (0, 0))
 
     def setup_game(self):
         self.primary_coord = (0, 0)
@@ -269,9 +279,11 @@ class GameState():
                 "buttons": {
                     "quit": Button(Elem.mk_tile_surface((160, 40), "Quit"), ((screen_width - 160) / 2, 600)),
                     "start": Button(Elem.mk_tile_surface((160, 40), "Start"), ((screen_width - 160) / 2, 450)),
+                    "tutorial": Button(self.filled_checkbox, (screen_width - 100, 500))
                 },
                 "text": {
                     "title": Elem(Elem.mk_tile_surface((450, 40), "Financial Literacy Tic-Tac-Toe", bg_color=bg_color), ((screen_width - 450) / 2, 300)),
+                    "tutorial-label": Elem(Elem.mk_tile_surface((450, 40), "Enable tutorial:", bg_color=bg_color), (screen_width - 330, 450))
                 },
         }
         self.current_screen = 0
@@ -292,6 +304,12 @@ class GameState():
                             self.run = False
                         case "start":
                             self.primary_board_screen_init()
+                        case "tutorial":
+                            self.tutorial = not self.tutorial
+                            if self.tutorial:
+                                self.elems["buttons"]["tutorial"].image = self.filled_checkbox
+                            else:
+                                self.elems["buttons"]["tutorial"].image = self.empty_checkbox
                     self.end_click(event)
 
     def primary_board_screen_init(self):
@@ -329,7 +347,9 @@ class GameState():
                 },
                 "text": {
                     "title": Elem(Elem.mk_tile_surface((450, 40), "Financial Literacy Tic-Tac-Toe", bg_color=bg_color), ((screen_width - 450) / 2, 50)),
-                    "response_notification": Elem(Elem.mk_tile_surface((450, 40), response_notification_text, bg_color=bg_color), ((screen_width - 450) / 2, 130)),
+                    "response_notification": Elem(Elem.mk_tile_surface((450, 40), response_notification_text, bg_color=bg_color), ((screen_width - 450) / 2, 100)),
+                    "tutorial-text-top": Elem(Elem.mk_tile_surface((600, 40), "You are X. Select a mini tic-tac-toe board to play in." if self.tutorial else "", bg_color=bg_color), ((screen_width - 600) / 2, 150)),
+                    "tutorial-text-bottom": Elem(Elem.mk_tile_surface((800, 40), "Winning mini boards lets you capture squares in the main game of tic-tac-toe" if self.tutorial else "", bg_color=bg_color), ((screen_width - 800) / 2, 750)),
                 },
         }
         self.current_screen = 1
@@ -366,6 +386,7 @@ class GameState():
                 },
                 "text": {
                     "title": Elem(Elem.mk_tile_surface((450, 40), questions[self.primary_coord[0]][self.primary_coord[1]]["title"], bg_color=bg_color), ((screen_width - 450) / 2, 50)),
+                    "tutorial-text": Elem(Elem.mk_tile_surface((450, 40), "Select a square to try to capture" if self.tutorial else "", bg_color=bg_color), ((screen_width - 450) / 2, 150)),
                 },
         }
         self.current_screen = 2
@@ -441,6 +462,7 @@ class GameState():
                 "text": {
                     "title": Elem(Elem.mk_tile_surface((450, 40), "Financial Literacy Tic-Tac-Toe", bg_color=bg_color), ((screen_width - 450) / 2, 50)),
                     "prompt": prompt_tile,
+                    "tutorial-text": Elem(Elem.mk_tile_surface((600, 40), "Answer the question correctly to capture the square" if self.tutorial else "", bg_color=bg_color), ((screen_width - 600) / 2, 300)),
                 },
         }
         self.current_screen = 3
