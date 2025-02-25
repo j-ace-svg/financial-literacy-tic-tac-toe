@@ -34,7 +34,7 @@ clock = pygame.Clock()
 screen_width = 864
 screen_height = 936
 monitor_width, monitor_height = pygame.display.get_desktop_sizes()[0]
-window_scaling_width, window_scaling_height = 1920 / monitor_width, 1080 / monitor_height
+window_scaling_width, window_scaling_height = monitor_width / 1920, monitor_height / 1080
 window_scaling = min(window_scaling_width, window_scaling_height)
 bg_color = (150, 150, 150)
 tile_color = (100, 100, 100)
@@ -48,7 +48,7 @@ pygame.display.set_caption('Financial Literacy Tic-Tac-Toe')
 
 font = pygame.font.SysFont(None, 30)
 
-with open("questions.txt", "r") as questions_file:
+with open("questions.txt", "r", encoding="utf8") as questions_file:
     questions = read_file.read_questions_file(questions_file)
 
 class Elem():
