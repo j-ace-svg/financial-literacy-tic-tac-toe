@@ -43,11 +43,12 @@ window_scaling = min(window_scaling_width, window_scaling_height)
 # Pastel blue: 185, 212, 239
 # Lighter blue: 5, 92, 157
 # Main grey: 231, 233, 236
-bg_color = (231, 233, 236)
+bg_color = (185, 212, 239)
 tile_color = (0, 146, 255)
-global_tile_color = (185, 212, 239)
+global_tile_color = (35, 69, 114)
 text_color = (4, 60, 127)
 primary_board_icon_color = (255, 0, 0)
+hover_border_color = (231, 233, 236)
 
 screen = pygame.display.set_mode((screen_width * window_scaling, screen_height * window_scaling))
 screen_unscaled = pygame.Surface((screen_width, screen_height))
@@ -137,6 +138,7 @@ class GameState():
         self.grid_pad = 20
         self.tile_size = 160
         self.checkbox_size = 40
+        self.hover_border_size = 3
         self.empty_tile = Elem.mk_tile_surface((self.tile_size, self.tile_size), "")
 
         icon_radius = 3 * self.tile_size / 8
@@ -183,9 +185,17 @@ class GameState():
         return self.run
 
     def disp_scene(self, screen):
+        mouse_pos = pygame.mouse.get_pos()
         for category in self.elems:
             for elem in self.elems[category]:
-                screen.blit(self.elems[category][elem].image, self.elems[category][elem].rect.topleft)
+                if category == "buttons" and self.elems[category][elem].eval_click(mouse_pos):
+                    unbordered_image = self.elems[category][elem].image
+                    bordered_image = pygame.Surface((unbordered_image.get_size()[0] + self.hover_border_size * 2, unbordered_image.get_size()[1] + self.hover_border_size * 2))
+                    bordered_image.fill(hover_border_color)
+                    bordered_image.blit(unbordered_image, (self.hover_border_size, self.hover_border_size))
+                    screen.blit(bordered_image, (self.elems[category][elem].rect.x - self.hover_border_size, self.elems[category][elem].rect.y - self.hover_border_size))
+                else:
+                    screen.blit(self.elems[category][elem].image, self.elems[category][elem].rect.topleft)
 
     def start_click(self, event):
         if not event.button == 1: return
