@@ -36,10 +36,17 @@ screen_height = 936
 monitor_width, monitor_height = pygame.display.get_desktop_sizes()[0]
 window_scaling_width, window_scaling_height = monitor_width / 1920, monitor_height / 1080
 window_scaling = min(window_scaling_width, window_scaling_height)
-bg_color = (150, 150, 150)
-tile_color = (100, 100, 100)
-global_tile_color = (255, 255, 255)
-text_color = (255, 255, 255)
+# Team Colors:
+# Main blue: 4, 60, 127
+# Less light main blue: 35, 69, 114
+# Sky blue: 0, 146, 255
+# Pastel blue: 185, 212, 239
+# Lighter blue: 5, 92, 157
+# Main grey: 231, 233, 236
+bg_color = (231, 233, 236)
+tile_color = (0, 146, 255)
+global_tile_color = (185, 212, 239)
+text_color = (4, 60, 127)
 primary_board_icon_color = (255, 0, 0)
 
 screen = pygame.display.set_mode((screen_width * window_scaling, screen_height * window_scaling))
