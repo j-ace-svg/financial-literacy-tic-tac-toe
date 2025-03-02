@@ -45,10 +45,10 @@ window_scaling = min(window_scaling_width, window_scaling_height)
 # Main grey: 231, 233, 236
 bg_color = (185, 212, 239)
 tile_color = (0, 146, 255)
-global_tile_color = (35, 69, 114)
+global_tile_color = (231, 233, 236)
 text_color = (4, 60, 127)
 primary_board_icon_color = (255, 0, 0)
-hover_border_color = (231, 233, 236)
+hover_border_color = (4, 60, 127)
 
 screen = pygame.display.set_mode((screen_width * window_scaling, screen_height * window_scaling))
 screen_unscaled = pygame.Surface((screen_width, screen_height))
