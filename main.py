@@ -4,6 +4,7 @@ import pygame
 from pygame.locals import *
 import random
 import os
+import math
 import read_file
 
 pygame.init()
@@ -133,12 +134,15 @@ class GameState():
         self.click_elem = None
         self.setup_game()
         self.tutorial = True
+        self.hover_start_time = 0
+        self.hovering = False
 
         # Tiles
         self.grid_pad = 20
         self.tile_size = 160
         self.checkbox_size = 40
         self.hover_border_size = 3
+        self.hover_oscillate_radius = 5
         self.empty_tile = Elem.mk_tile_surface((self.tile_size, self.tile_size), "")
 
         icon_radius = 3 * self.tile_size / 8
@@ -186,16 +190,21 @@ class GameState():
 
     def disp_scene(self, screen):
         mouse_pos = pygame.mouse.get_pos()
+        hovering_check = False
         for category in self.elems:
             for elem in self.elems[category]:
                 if category == "buttons" and self.elems[category][elem].eval_click(mouse_pos):
+                    hovering_check = True
+                    if not self.hovering: self.hover_start_time = pygame.time.get_ticks()
                     unbordered_image = self.elems[category][elem].image
                     bordered_image = pygame.Surface((unbordered_image.get_size()[0] + self.hover_border_size * 2, unbordered_image.get_size()[1] + self.hover_border_size * 2))
                     bordered_image.fill(hover_border_color)
                     bordered_image.blit(unbordered_image, (self.hover_border_size, self.hover_border_size))
-                    screen.blit(bordered_image, (self.elems[category][elem].rect.x - self.hover_border_size, self.elems[category][elem].rect.y - self.hover_border_size))
+                    screen.blit(bordered_image, (self.elems[category][elem].rect.x - self.hover_border_size, self.elems[category][elem].rect.y - self.hover_border_size + self.hover_oscillate_radius * math.sin((pygame.time.get_ticks() - self.hover_start_time) * math.tau / 2000)))
                 else:
                     screen.blit(self.elems[category][elem].image, self.elems[category][elem].rect.topleft)
+
+        self.hovering = hovering_check
 
     def start_click(self, event):
         if not event.button == 1: return
